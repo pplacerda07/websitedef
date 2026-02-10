@@ -5,6 +5,11 @@ import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion"
 
 const features = [
   {
+    title: "The Process",
+    description:
+      "A holistic view of how we transform abstract ideas into tangible digital experiences, starting with a strong foundation.",
+  },
+  {
     title: "Strategy → Structure → Code",
     description:
       "We align on your audience and brand first, then translate that into a clear site structure, content hierarchy, and a maintainable build. What we decide strategically is reflected in the codebase.",
@@ -46,7 +51,7 @@ export function FeaturesSection() {
   }, [scrollYProgress])
 
   return (
-    <section ref={containerRef} className="relative h-[400vh] bg-background">
+    <section ref={containerRef} className="relative h-[500vh] bg-background">
       <div className="sticky top-0 h-screen w-full flex overflow-hidden">
         {/* Left Column: Arc Visual (1/3 width) */}
         <div className="w-1/3 h-full relative flex items-center bg-black/10 backdrop-blur-sm border-r border-white/5">
@@ -78,10 +83,11 @@ export function FeaturesSection() {
               {/* Nodes - Calculated for distribution along the tall curve */}
               {features.map((_, index) => {
                 const positions = [
-                  { x: 74, y: 120 },    // Top - adjusted right again
-                  { x: 132, y: 300 },   // Upper mid
-                  { x: 132, y: 500 },   // Lower mid
-                  { x: 74, y: 680 },    // Bottom - adjusted right again
+                  { x: 74, y: 120 },    // 1. Intro (Start) - Aligned to curve
+                  { x: 125, y: 260 },   // 2. Strategy - Adjusted right
+                  { x: 135, y: 400 },   // 3. Design (Apex)
+                  { x: 125, y: 540 },   // 4. Production - Adjusted right
+                  { x: 74, y: 680 },    // 5. SEO (End) - Aligned to curve
                 ]
                 const pos = positions[index]
 
@@ -138,15 +144,44 @@ export function FeaturesSection() {
                 className="absolute inset-0 flex flex-col justify-center"
               >
                 <div className="space-y-6">
+                  <h2 className="font-[var(--font-display)] text-4xl md:text-5xl lg:text-6xl tracking-tight text-white">
+                    {features[activeIndex].title}
+                  </h2>
+
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 w-fit">
                     <span className="text-xs font-mono text-white/50">0{activeIndex + 1}</span>
                     <span className="text-xs font-mono text-white/50">/</span>
-                    <span className="text-xs font-mono text-white/50">04</span>
+                    <span className="text-xs font-mono text-white/50">05</span>
                   </div>
 
+                  <p className="text-lg text-white/60 max-w-xl leading-relaxed mt-4">
+                    {features[activeIndex].description}
+                  </p>
+
                   <div className="relative">
-                    {/* 1. HTML Coding Animation (Top Right) - Moved further up */}
+                    {/* 0. Intro Animation (New) */}
                     {activeIndex === 0 && (
+                      <div className="mt-8 h-40 w-full max-w-lg relative overflow-visible flex items-center justify-center">
+                        <div className="relative w-32 h-32">
+                          <motion.div
+                            className="absolute inset-0 rounded-full bg-white/5 border border-white/10"
+                            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.1, 0.5] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                          />
+                          <motion.div
+                            className="absolute inset-4 rounded-full bg-white/10 border border-white/20"
+                            animate={{ scale: [1, 1.1, 1], opacity: [0.6, 0.2, 0.6] }}
+                            transition={{ duration: 3, delay: 0.5, repeat: Infinity, ease: "easeInOut" }}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center text-white/80 font-mono text-xs tracking-widest uppercase">
+                            Start
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 1. HTML Coding Animation (Was 0) */}
+                    {activeIndex === 1 && (
                       <div className="absolute -top-32 -right-4 md:-right-12 p-3 bg-black/40 backdrop-blur-md rounded-lg border border-white/10 font-mono text-[10px] text-blue-300 leading-tight opacity-80 shadow-2xl skew-x-[-5deg] skew-y-[-2deg] transform rotate-2">
                         {[
                           "<header>",
@@ -176,17 +211,10 @@ export function FeaturesSection() {
                       </div>
                     )}
 
-                    <h2 className="font-[var(--font-display)] text-4xl md:text-5xl lg:text-6xl tracking-tight text-white">
-                      {features[activeIndex].title}
-                    </h2>
-
-                    <p className="text-lg text-white/60 max-w-xl leading-relaxed mt-4">
-                      {features[activeIndex].description}
-                    </p>
-
-                    {/* 2. Bow and Arrow Animation (Under Text) - Moved further down */}
-                    {activeIndex === 0 && (
-                      <div className="mt-24 h-40 w-full max-w-sm relative overflow-visible"> {/* Increased height for arc */}
+                    {/* 2. Bow and Arrow Animation (Was 0/Strategy) */}
+                    {activeIndex === 1 && (
+                      <div className="mt-24 h-40 w-full max-w-sm relative overflow-visible">
+                        {/* Note: This was attached to Strategy (now index 1) */}
                         <svg viewBox="0 0 400 150" className="w-full h-full overflow-visible">
                           {/* Target - Placed lower right to catch the falling arrow */}
                           <motion.g transform="translate(350, 120)">
@@ -252,8 +280,8 @@ export function FeaturesSection() {
                       </div>
                     )}
 
-                    {/* 3. Rain Animation (Feature 1) */}
-                    {activeIndex === 1 && (
+                    {/* 3. Rain Animation (Feature 2 - Design) */}
+                    {activeIndex === 2 && (
                       <div className="mt-8 h-40 w-full max-w-xl relative overflow-visible flex items-end justify-center pb-4">
                         <svg viewBox="0 0 400 100" className="w-full h-full overflow-visible">
                           <defs>
@@ -335,8 +363,8 @@ export function FeaturesSection() {
                       </div>
                     )}
 
-                    {/* 4. Production Delivery Animation (Feature 2) */}
-                    {activeIndex === 2 && (
+                    {/* 4. Production Delivery Animation (Feature 3 - Production) */}
+                    {activeIndex === 3 && (
                       <div className="mt-8 h-32 w-full max-w-3xl relative overflow-visible flex items-center justify-center">
                         <svg viewBox="0 0 600 100" className="w-full h-full overflow-visible">
                           {/* Base Line (Dark) */}
@@ -440,8 +468,8 @@ export function FeaturesSection() {
                       </div>
                     )}
 
-                    {/* 5. SEO & Maintenance Animation (Feature 3) */}
-                    {activeIndex === 3 && (
+                    {/* 5. SEO & Maintenance Animation (Feature 4 - Maintenance) */}
+                    {activeIndex === 4 && (
                       <div className="mt-8 h-40 w-full max-w-lg relative overflow-visible flex flex-col items-center justify-center">
                         <div className="flex items-end justify-between w-full px-8 pb-4">
 

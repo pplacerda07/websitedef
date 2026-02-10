@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "WEN LAUNCH - Full-Service Web3 Agency",
   description:
     "The first full-stack Web3 creative agency integrating AI technology to deliver best-in-class client experience.",
-    generator: 'v0.app'
+  generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -31,7 +31,7 @@ export default function RootLayout({
         {/* Preload logo for instant preloader display */}
         <link rel="preload" href="/images/logo-eagle.png" as="image" />
       </head>
-      <body className={`font-sans antialiased ${bebasNeue.variable}`}>
+      <body className={`font-sans antialiased overflow-x-hidden ${bebasNeue.variable}`}>
         <Preloader />
         {children}
         <Analytics />

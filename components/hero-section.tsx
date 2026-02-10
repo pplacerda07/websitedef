@@ -1,5 +1,48 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { ArrowUpRight, ArrowDown } from "lucide-react"
 import Image from "next/image"
+
+function TypewriterText() {
+  const words = ["design", "develop", "build", "delivery"]
+  const [currentWordIndex, setCurrentWordIndex] = useState(0)
+  const [currentText, setCurrentText] = useState("")
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  useEffect(() => {
+    const typingSpeed = 150
+    const deletingSpeed = 75
+    const pauseTime = 2000
+
+    const handleType = () => {
+      const fullWord = words[currentWordIndex]
+
+      if (isDeleting) {
+        setCurrentText(fullWord.substring(0, currentText.length - 1))
+      } else {
+        setCurrentText(fullWord.substring(0, currentText.length + 1))
+      }
+
+      if (!isDeleting && currentText === fullWord) {
+        setTimeout(() => setIsDeleting(true), pauseTime)
+      } else if (isDeleting && currentText === "") {
+        setIsDeleting(false)
+        setCurrentWordIndex((prev) => (prev + 1) % words.length)
+      }
+    }
+
+    const timer = setTimeout(handleType, isDeleting ? deletingSpeed : typingSpeed)
+    return () => clearTimeout(timer)
+  }, [currentText, isDeleting, currentWordIndex])
+
+  return (
+    <span>
+      {currentText}
+      <span className="animate-pulse">|</span>
+    </span>
+  )
+}
 
 export function HeroSection() {
   return (
@@ -56,16 +99,17 @@ export function HeroSection() {
           <h1
             className="font-[var(--font-display)] text-5xl md:text-7xl lg:text-8xl leading-[0.85] tracking-tight relative z-20 drop-shadow-2xl"
           >
-            <span className="block italic text-foreground/90">WE ARE</span>
-            <span className="block text-foreground filter drop-shadow-lg">WEB DESIGN</span>
-            <span className="block text-foreground/30 italic">AGENCY</span>
+            <span className="block italic text-foreground/90 mb-2">You imagine</span>
+            <span className="block text-foreground filter drop-shadow-lg font-thin">
+              We <TypewriterText />
+            </span>
           </h1>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="flex justify-center mt-16 z-20">
-        <div className="relative w-24 h-24">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
+        <div className="relative w-14 h-14">
           {/* Rotating text */}
           <svg className="w-full h-full animate-spin-slow" viewBox="0 0 100 100">
             <defs>
